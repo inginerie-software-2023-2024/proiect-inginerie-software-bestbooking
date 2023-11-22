@@ -38,6 +38,7 @@ namespace MDS.Controllers
         {
             var rezervari = db.ListaRezervari.OrderByDescending(a => a.CheckIn).ThenByDescending(a => a.CheckOut)
                                           .Include("User");
+
             int totalItems = rezervari.Count();
             var currentPage = Convert.ToInt32(HttpContext.Request.Query["page"]);
 
@@ -219,7 +220,7 @@ namespace MDS.Controllers
 
             if (rezervare.UserId != _userManager.GetUserId(User) && !User.IsInRole("Admin"))
             {
-                TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unei rezervari care nu va apartine";
+                TempData["message"] = "Nu aveți dreptul să faceți modificări asupra unei rezervări care nu vă aparține";
                 return RedirectToAction("Index");
             }
 
@@ -247,13 +248,13 @@ namespace MDS.Controllers
                 db.SaveChanges();
 
                 // Se afiseaza un mesaj de confirmare si se redirectioneaza catre pagina principala
-                TempData["message"] = "Rezervarea a fost modificata cu succes";
+                TempData["message"] = "Rezervarea a fost modificată cu succes";
                 return RedirectToAction("Index");
             }
             else
             {
                 // Daca utilizatorul nu are dreptul sa modifice rezervarea, se redirectioneaza catre pagina principala cu un mesaj de eroare
-                TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unei rezervari care nu va apartine";
+                TempData["message"] = "Nu aveți dreptul să faceți modificări asupra unei rezervări care nu vă aparține";
                 return RedirectToAction("Index");
             }
         }
@@ -265,7 +266,7 @@ namespace MDS.Controllers
         {
             Rezervare rez = db.ListaRezervari.Find(id);
             db.ListaRezervari.Remove(rez);
-            TempData["message"] = "Rezervarea a fost stearsa";
+            TempData["message"] = "Rezervarea a fost ștearsă";
             db.SaveChanges();
             return RedirectToAction("Index");
         }

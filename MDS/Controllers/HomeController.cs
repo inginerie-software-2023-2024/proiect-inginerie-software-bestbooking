@@ -1,4 +1,4 @@
-﻿﻿using MDS.Data;
+﻿using MDS.Data;
 using MDS.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

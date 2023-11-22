@@ -1,4 +1,4 @@
-﻿﻿using Ganss.Xss;
+﻿using Ganss.Xss;
 using MDS.Data;
 using MDS.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -63,7 +63,7 @@ namespace MDS.Controllers
 
             else
             {
-                TempData["message"] = "Nu aveti dreptul sa stergeti review-ul";
+                TempData["message"] = "Nu aveți dreptul să ștergeți review-ul";
                 return RedirectToAction("Index", "Tari");
             }
         }
@@ -73,7 +73,7 @@ namespace MDS.Controllers
         {
             Review rev = db.ListaReviews.Include("Hotel")
                                         .Where(art => art.Id == id)
-                                        .First(); 
+                                        .First();
 
             if (rev.UserId == _userManager.GetUserId(User) || User.IsInRole("Admin"))
             {
@@ -82,7 +82,7 @@ namespace MDS.Controllers
 
             else
             {
-                TempData["message"] = "Nu aveti dreptul sa editati review-ul";
+                TempData["message"] = "Nu aveți dreptul să editați review-ul";
                 return RedirectToAction("Index", "Tari");
             }
         }
@@ -93,7 +93,7 @@ namespace MDS.Controllers
         {
             var sanitizer = new HtmlSanitizer();
             Review rev = db.ListaReviews.Include("Hotel")
-                                          .Where(art=>art.Id==id)
+                                          .Where(art => art.Id==id)
                                           .First();
             try
             {
@@ -109,8 +109,8 @@ namespace MDS.Controllers
                 }
                 else
                 {
-                    TempData["message"] = "Nu aveti dreptul sa faceti modificari";
-                    return RedirectToAction("Show","Hoteluri", new {id = rev.Hotel.Id} );
+                    TempData["message"] = "Nu aveți dreptul să faceți modificări";
+                    return RedirectToAction("Show", "Hoteluri", new { id = rev.Hotel.Id });
                 }
             }
             catch (Exception e)

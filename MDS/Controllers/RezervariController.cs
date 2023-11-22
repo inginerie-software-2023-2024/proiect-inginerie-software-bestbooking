@@ -1,4 +1,4 @@
-﻿﻿using Ganss.Xss;
+﻿using Ganss.Xss;
 using MDS.Data;
 using MDS.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -38,7 +38,6 @@ namespace MDS.Controllers
         {
             var rezervari = db.ListaRezervari.OrderByDescending(a => a.CheckIn).ThenByDescending(a => a.CheckOut)
                                           .Include("User");
-
             int totalItems = rezervari.Count();
             var currentPage = Convert.ToInt32(HttpContext.Request.Query["page"]);
 
@@ -72,9 +71,9 @@ namespace MDS.Controllers
         }
 
         public IActionResult RezervarileMele()
-        {   
+        {
             var rezervari = db.ListaRezervari.OrderByDescending(a => a.CheckIn).ThenByDescending(a => a.CheckOut)
-                                          .Include("User").Where(a =>a.UserId== _userManager.GetUserId(User));
+                                          .Include("User").Where(a => a.UserId== _userManager.GetUserId(User));
             var userName = _userManager.GetUserName(User);
             var user = db.Users.FirstOrDefault(u => u.UserName == userName);
             ViewBag.UserName = user.UserName;
@@ -136,7 +135,7 @@ namespace MDS.Controllers
         public ActionResult New(Rezervare rez)
         {
             var sanitizer = new HtmlSanitizer();
-          
+
             rez.UserId = _userManager.GetUserId(User);
 
             var camera = db.ListaCamere.Include("Hotel")
@@ -285,6 +284,7 @@ namespace MDS.Controllers
 
             ViewBag.UserCurent = _userManager.GetUserId(User);
         }
+
 
 
 

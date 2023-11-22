@@ -1,0 +1,33 @@
+﻿@model MDS.Models.Tara
+<h2>Afisare Hoteluri</h2>
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@ViewBag.Message</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+<section id="pinBoot">
+    @foreach (var hotel in Model.ListaHoteluri)
+    {
+                <article class="white-panel" onclick="location.href='/Hoteluri/Show/@hotel.Id'">
+            <h4>@Html.Raw(hotel.Nume)</h4>
+            <p>@Html.Raw(hotel.Facilitati)</p>
+            <p>@Html.Raw(hotel.Locatie)</p>
+            <div>
+                @for (var i = 1; i <= int.Parse(@Html.Raw(hotel.Rating).ToString()); i++)
+                {
+                    <span class="starGlow"></span>
+                }
+                @for (var i = (int.Parse(@Html.Raw(hotel.Rating).ToString()) + 1); i <= 5; i++)
+                {
+                    <span class="starFade"></span>
+                }
+
+              </div>
+
+
+
+                    </article>
+    }
+</section> 

@@ -1,0 +1,74 @@
+﻿@model MDS.Models.Camera
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@ViewBag.Message</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+<div class="card mb-5">
+
+    <div class="card-body">
+
+        <h3 class="card-title alert-success py-3 px-3 rounded-2">@Model.Nume</h3>
+
+        <p class="card-text mb-3">@Html.Raw(Model.Descriere)</p>
+
+        <div class="d-flex justify-content-between mb-3">
+            <div class="font-weight-bold">Capacitate:</div>
+            <div>@Model.Capacitate</div>
+        </div>
+
+        <div class="d-flex justify-content-between mb-3">
+            <div class="font-weight-bold">Pret pe noapte:</div>
+            <div>@Model.PretNoapte</div>
+        </div>
+
+        <div class="d-flex justify-content-between mb-3">
+            <div class="font-weight-bold">Hotel:</div>
+            <div><i class="bi bi-globe"></i> @Model.Hotel.Nume</div>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <a class="btn btn-primary" href="/Camere/Edit/@Model.Id"><i class="bi bi-pencil-square"></i> Editeaza</a>
+            
+            <a class="btn btn-primary" href="/Rezervari/New/@Model.Id"><i class="bi bi-pencil-square"></i> Rezerva</a>
+
+            <form method="post" action="/Camere/Delete/@Model.Id">
+                <button class="btn btn-danger" type="submit"><i class="bi bi-trash"></i> Sterge</button>
+            </form>
+        </div>
+
+    </div>
+
+
+    @foreach (var rez in Model.ListaRezervari)
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2"></div>
+
+                <div class="col-md-8">
+
+                    <div>
+
+                        <p>@rez.CheckIn</p>
+                        <small>@rez.CheckOut</small>
+                        @*<strong> <i class="bi bi-person"></i>class@rez.User.UserName</strong>*@
+
+                    </div>
+                    <br>
+
+                    
+
+                    <br />
+
+                </div>
+
+                <div class="col-md-2"></div>
+
+            </div>
+
+        </div>
+    }
+</div>

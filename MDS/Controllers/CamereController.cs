@@ -39,8 +39,8 @@ namespace MDS.Controllers
 
             camera.Hoteluri = GetAllHotels();
             var camere = from camer in db.ListaCamere
-                         orderby camer.PretNoapte
-                         select camer;
+                             orderby camer.PretNoapte
+                             select camer;
             ViewBag.Camere = camere;
             return View(camera);
         }
@@ -59,6 +59,7 @@ namespace MDS.Controllers
                                             .Where(art => art.Id == id)
                                             .First();
 
+            SetAccessRights();
 
             ViewBag.camera = camera;
             return View(camera);
@@ -84,13 +85,13 @@ namespace MDS.Controllers
             cm.Descriere = sanitizer.Sanitize(cm.Descriere);
             cm.UserId = _userManager.GetUserId(User);
 
-
+         
             try
             {
                 db.ListaCamere.Add(cm);
                 db.SaveChanges();
                 TempData["message"] = "Camera a fost adăugată";
-                return Redirect("/Hoteluri/Show/" + cm.Hotel.Id);
+                return Redirect("/Hoteluri/Show/"+cm.Hotel.Id);
             }
 
             catch (Exception)
@@ -135,7 +136,7 @@ namespace MDS.Controllers
 
                 cam.Nume = requestCamera.Nume;
                 cam.PretNoapte = requestCamera.PretNoapte;
-                cam.Capacitate = requestCamera.Capacitate;
+                cam.Capacitate= requestCamera.Capacitate;
                 cam.Descriere = requestCamera.Descriere;
                 db.SaveChanges();
                 TempData["message"] = "Camera a fost modificată";
@@ -158,11 +159,11 @@ namespace MDS.Controllers
                                          .First();
 
             if (camera.UserId == _userManager.GetUserId(User) || User.IsInRole("Admin"))
-            {
+            { 
                 db.ListaCamere.Remove(camera);
                 db.SaveChanges();
                 TempData["message"] = "Camera a fost ștearsă";
-                return RedirectToAction("Show", "Hoteluri", new { id = camera.Hotel.Id });
+                return RedirectToAction("Show","Hoteluri", new {id = camera.Hotel.Id});
                 //return View();
             }
             else
@@ -199,7 +200,7 @@ namespace MDS.Controllers
 
             // extragem toate categoriile din baza de date
             var hoteluri = from hotel in db.ListaHoteluri
-                           select hotel;
+                             select hotel;
 
             // iteram prin categorii
             foreach (var hotel in hoteluri)
@@ -212,12 +213,12 @@ namespace MDS.Controllers
                     Text = hotel.Nume.ToString()
                 });
             }
-
+           
             return selectList;
         }
 
 
-
+        
 
 
     }

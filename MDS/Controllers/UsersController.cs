@@ -43,7 +43,7 @@ namespace MDS.Controllers
                 return View();
             }
 
-
+             
 
             public async Task<ActionResult> Edit1(string id)
             {
@@ -72,7 +72,7 @@ namespace MDS.Controllers
 
 
                 if (ModelState.IsValid)
-                {
+                {    
                     user.UserName = newData.UserName;
                     user.Email = newData.Email;
                     user.Nume = newData.Nume;
@@ -104,11 +104,11 @@ namespace MDS.Controllers
             {
                 var user = db.Users
                              .Include("ListaReviews")
-
+                             
                              .Where(u => u.Id == id)
                              .First();
 
-
+                 
                 if (user.ListaReviews.Count > 0)
                 {
                     foreach (var comment in user.ListaReviews)
@@ -116,7 +116,7 @@ namespace MDS.Controllers
                         db.ListaReviews.Remove(comment);
                     }
                 }
-
+                
 
                 db.Users.Remove(user);
                 db.SaveChanges();

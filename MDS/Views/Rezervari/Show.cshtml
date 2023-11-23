@@ -1,7 +1,7 @@
-﻿﻿@{
+﻿@{
     var reservation = ViewBag.Reservation as MDS.Models.Rezervare;
     var camera = ViewBag.Camera as MDS.Models.Camera;
-}
+    }
 
 
 <head>
@@ -21,7 +21,7 @@
             background-color: #3399ff;
             color: #ffffff;
             border: 2px solid #3399ff;
-            padding: 10px 20px;
+            padding: 5px 10px;
             font-size: 16px;
         }
 
@@ -55,75 +55,76 @@
     </style>
 </head>
 
-<div class="card">
-    <h3 class="custom-header text-center">Detalii Rezervare</h3>
-    <br />
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-6">
+    <div class="card">
+        <h3 class="custom-header text-center">Detalii Rezervare</h3>
+        <br />
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
                 <h4 class="custom-text">Nume client</h4>
-
-                <ul class="list-group list-group-flush">
-                    @foreach (var client in reservation.ListaClienti.Split(","))
-                    {
-                        <li class="list-group-item">@client</li>
-                    }
-                </ul>
-            </div>
-            <div class="col-md-6">
+                    
+                    <ul class="list-group list-group-flush">
+                        @foreach (var client in reservation.ListaClienti.Split(","))
+                        {
+                            <li class="list-group-item">@client</li>
+                        }
+                    </ul>
+                </div>
+                <div class="col-md-6">
                 <h4 class="custom-text">Informații cameră</h4>
-
-                @if (camera != null)
-                {
+                    
+                    @if (camera != null)
+                    {
                     <p class="custom-text"><strong>Nume:</strong> <span class="text-muted">@camera.Nume</span></p>
                     <p class="custom-text"><strong>Capacitate:</strong> <span class="text-muted">@camera.Capacitate</span></p>
                     <p class="custom-text"><strong>Preț pe noapte:</strong> <span class="text-muted">@camera.PretNoapte</span></p>
-                }
-                else
-                {
-                    <p>Camera nu este disponibilă</p>
-                }
+                    }
+                    else
+                    {
+                        <p>Camera nu este disponibilă</p>
+                    }
+                </div>
             </div>
-        </div>
-        <hr />
-        <div class="row">
-            <div class="col-md-6">
+            <hr />
+            <div class="row">
+                <div class="col-md-6">
                 <h4 class="custom-text">Check-in</h4>
-
+                    
                 <p class="text-muted custom-text">@Html.Raw(reservation.CheckIn)</p>
-            </div>
-            <div class="col-md-6">
+                </div>
+                <div class="col-md-6">
                 <h4 class="custom-text">Check-out</h4>
-
+                   
                 <p class="text-muted custom-text">@Html.Raw(reservation.CheckOut)</p>
+                </div>
             </div>
-        </div>
-        <hr />
-        <div class="row">
-            <div class="col-md-6">
+            <hr />
+            <div class="row">
+                <div class="col-md-6">
                 <h4 class="custom-text">Suma</h4>
-
-                <p class="text-muted">@Html.Raw(reservation.Suma)</p>
-            </div>
-            <div class="col-md-6">
+                    
+                    <p class="text-muted">@Html.Raw(reservation.Suma)</p>
+                </div>
+                <div class="col-md-6">
                 <h4 class="custom-text">Timp ocupat</h4>
-
-                <p class="text-muted">@Html.Raw(reservation.CheckOut - reservation.CheckIn)</p>
+                    
+                    <p class="text-muted">@Html.Raw(reservation.CheckOut - reservation.CheckIn)</p>
+                </div>
             </div>
+            
+            @if (reservation.UserId == ViewBag.UserCurent || ViewBag.EsteAdmin)
+            {
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <a class="btn custom-button" href="/Rezervari/Edit/@reservation.Id"><i class="bi bi-pencil-square"></i>Editează</a>
+                    </div>
+                    <div>
+                        <form method="post" action="/Rezervari/Delete/@reservation.Id">
+                            <button class="btn custom-button" type="submit"><i class="bi bi-trash"></i>Șterge</button>
+                        </form>
+                    </div>
+                </div>
+            }
         </div>
-
-        @if (reservation.UserId == ViewBag.UserCurent || ViewBag.EsteAdmin)
-        {
-            <div class="d-flex justify-content-between">
-                <div>
-                    <a class="btn custom-button" href="/Rezervari/Edit/@reservation.Id"><i class="bi bi-pencil-square"></i>Editează</a>
-                </div>
-                <div>
-                    <form method="post" action="/Rezervari/Delete/@reservation.Id">
-                        <button class="btn custom-button" type="submit"><i class="bi bi-trash"></i>Șterge</button>
-                    </form>
-                </div>
-            </div>
-        }
     </div>
-</div>
+

@@ -1,5 +1,4 @@
-﻿﻿
-<head>
+﻿﻿<head>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         .custom-header {
@@ -64,7 +63,7 @@
         <div class="card-text font-weight-bold mt-4 custom-text">Preț pe noapte: @Model.PretNoapte</div>
 
         <div class="card-text font-weight-bold mt-4 custom-text"><i class="bi bi-globe"></i> @Model.Hotel.Nume</div>
-
+        
         <br />
         <div class="d-flex justify-content-between">
             <a class="btn btn-danger custom-button" href="/Camere/Edit/@Model.Id"><i class="bi bi-pencil-square"></i> Editează</a>
@@ -77,21 +76,21 @@
     @*
     @foreach (var rez in Model.ListaRezervari)
     {
-    <div class="container">
-    <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-    <div>
-    <p class="custom-text">@rez.CheckIn</p>
-    <small class="custom-text">@rez.CheckOut</small>
-    @*<strong> <i class="bi bi-person"></i>class@rez.User.UserName</strong>* @
-    </div>
-    <br>
-    <br />
-    </div>
-    <div class="col-md-2"></div>
-    </div>
-    </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div>
+                        <p class="custom-text">@rez.CheckIn</p>
+                        <small class="custom-text">@rez.CheckOut</small>
+                        @*<strong> <i class="bi bi-person"></i>class@rez.User.UserName</strong>* @
+                    </div>
+                    <br>
+                    <br />
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </div>
     }
     *@
 </div>

@@ -1,8 +1,4 @@
-﻿@model MDS.Models.Rezervare
-@{
-    ViewBag.Title = "Rezervari";
-    var currentDate = DateTime.Now.Date;
-}
+﻿@model MDS.Models.Hotel
 
 
 <head>
@@ -13,6 +9,9 @@
             color: #ff6600;
         }
 
+        .custom-text {
+            font-family: 'Lobster', cursive;
+        }
 
         .custom-button {
             font-family: 'Lobster', cursive;
@@ -29,59 +28,63 @@
                 border-color: #1a8cff;
             }
 
+        .custom-textbox {
+            font-family: 'Lobster', cursive;
+            background-color: #cce6ff;
+            border: 1px solid #0080ff;
+            padding: 8px;
+            font-size: 14px;
+        }
 
-        .hidden-element {
-            display: none;
+
+        .btn-primary {
+            background-color: #007bff;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: center;
         }
     </style>
 </head>
 
+<h2 class="text-center mt-5 custom-header">Adaugă un hotel</h2>
 
-<h2 class="text-center mt-5 custom-header">Adaugă o rezervare</h2>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <form method="post" action="/Hoteluri/New">
+
+                @Html.Label("Nume", "Nume")
+                <br />
+                @Html.TextBox("Nume", null, new { @class = "form-control" })
+                <br /><br />
+
+                @Html.Label("Locatie", "Adresă")
+                <br />
+                @Html.TextBox("Locatie", null, new { @class = "form-control" })
+
+                <br />
+                @Html.Label( "DAȚI ENTER DUPĂ FIECARE INSERARE DE IMAGINE/VIDEO"  )
+                <br />
+
+                <br />
+                @Html.Label("Facilitati", "Facilități")
+
+                @Html.TextArea("Facilitati", null, new { @class = "summernote" })
+
+                @Html.ValidationMessage("Facilitati", null, new { @class = "text-danger" })
+                <br /><br />
 
 
-@using (Html.BeginForm("New", "Rezervari", new { id = Model.Id }, FormMethod.Post))
-{
-    @if (ViewBag.Message != null)
-    {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>@ViewBag.Message</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <label>Selectați țara</label>
+                @Html.DropDownListFor(m => m.TaraId, new SelectList(Model.Tari, "Value", "Text"),
+                "Selectați țara", new { @class = "form-control" })
+                <br />
+
+                <button class="btn btn-success custom-button" type="submit">Adaugă hotelul</button>
+
+            </form>
         </div>
-    }
-
-    @Html.Label("CameraId", "Camera aleasă:", new { @class = "hidden-element" })
-    <br />
-    @Html.TextBox("CameraId", Model.CameraId, new { @class = "form-control hidden-element" })
-
-
-    @Html.AntiForgeryToken()
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.CheckIn, htmlAttributes: new { @class = "control-label" })
-        @Html.EditorFor(model => model.CheckIn, new { htmlAttributes = new { @class = "form-control", Value = currentDate.ToString("yyyy-MM-dd") } })
-        @Html.ValidationMessageFor(model => model.CheckIn, "", new { @class = "text-danger" })
     </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.CheckOut, htmlAttributes: new { @class = "control-label" })
-        @Html.EditorFor(model => model.CheckOut, new { htmlAttributes = new { @class = "form-control", Value = currentDate.ToString("yyyy-MM-dd") } })
-        @Html.ValidationMessageFor(model => model.CheckOut, "", new { @class = "text-danger" })
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.ListaClienti, htmlAttributes: new { @class = "control-label" })
-        @Html.EditorFor(model => model.ListaClienti, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.ListaClienti, "", new { @class = "text-danger" })
-    </div>
-
-    <div class="form-group">
-        <input type="submit" value="Adaugă rezervarea" class="btn btn-primary custom-button" />
-    </div>
-}
-
-<div>
-    @Html.ActionLink("Toate rezervarile mele", "RezervarileMele")
 </div>
-
->>>>>>> 8a76d1e78d2cca0f7d6b999a1d30c9caac9efbb2

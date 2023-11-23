@@ -1,4 +1,4 @@
-# BestBooking (MDS Project)
+# BestBooking
 
 Dănescu Adela-Gabriela, Dîrțu Ecaterina, Mihailescu Teodor, Pița Bogdan-Ioan
 
@@ -13,9 +13,11 @@ Group 342
 
 [Trello Link](https://trello.com/invite/mdsbestbooking/ATTI433e5f54374e851e879a648323e985b6BA271634)
 
-[Demo Link]
+[NFS Link](https://docs.google.com/document/d/1xByb49eBQnMBz94uNoANoEqbmg6mDLFe02F-84nxcWI/edit)
 
-[Diagram Link](https://drive.google.com/file/d/18PXyDElgSDRy9ncKxb538-3kkto0WEC3/view?usp=sharing)
+[User Personas](https://docs.google.com/document/d/1BpeaZb_QCSZPDt4h1vrn6ZAyx8Gbgn7XpYFCS03gpNY/edit)
+
+[Diagram UML Link](https://drive.google.com/file/d/18PXyDElgSDRy9ncKxb538-3kkto0WEC3/view?usp=sharing)
 
 ### MUST: User login with different roles :heavy_check_mark:
 #### Acceptance Criteria:
@@ -78,7 +80,7 @@ Group 342
    - Users can select various criteria for searching hotels.
    - The search results match the selected criteria from hotel descriptions.
    
-###SPRINT 1 DEVELOPMENT
+### SPRINT 1 DEVELOPMENT
 
 ### MUST: (3p) Custom search to display available rooms :heavy_check_mark:
 #### Acceptance Criteria:

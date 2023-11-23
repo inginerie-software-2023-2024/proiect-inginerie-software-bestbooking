@@ -1,89 +1,95 @@
 ﻿@model MDS.Models.Hotel
 
-
-<head>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        .custom-header {
-            font-family: 'Lobster', cursive;
-            color: #ff6600;
-        }
-
-        .custom-text {
-            font-family: 'Lobster', cursive;
-        }
-
-        .custom-button {
-            font-family: 'Lobster', cursive;
-            background-color: #3399ff;
-            color: #ffffff;
-            border: 2px solid #3399ff;
-            padding: 10px 20px;
-            font-size: 16px;
-        }
-
-            .custom-button:hover {
-                background-color: #1a8cff;
-                color: #000000;
-                border-color: #1a8cff;
-            }
-
-        .custom-textbox {
-            font-family: 'Lobster', cursive;
-            background-color: #cce6ff;
-            border: 1px solid #0080ff;
-            padding: 8px;
-            font-size: 14px;
-        }
-
-
-        .btn-primary {
-            background-color: #007bff;
-        }
-
-        .card-footer {
-            display: flex;
-            justify-content: center;
-        }
-    </style>
-</head>
-
-<h2 class="text-center mt-5 custom-header">Adaugă un hotel</h2>
-
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-6 offset-3">
-            <form method="post" action="/Hoteluri/New">
-
-                @Html.Label("Nume", "Nume")
-                <br />
-                @Html.TextBox("Nume", null, new { @class = "form-control" })
-                <br /><br />
-
-                @Html.Label("Locatie", "Adresă")
-                <br />
-                @Html.TextBox("Locatie", null, new { @class = "form-control" })
-
-
-                <br />
-                @Html.Label("Facilitati", "Facilități")
-                <br />
-                @Html.Label( "DAȚI ENTER DUPĂ FIECARE INSERARE DE IMAGINE/VIDEO"  )
-                <br />
-                @Html.TextArea("Facilitati", null, new { @class = "summernote" })
-
-                @Html.ValidationMessage("Facilitati", null, new { @class = "text-danger" })
-                <br /><br />
-
-
-                <label>Selectați țara</label>
-                @Html.DropDownListFor(m => m.TaraId, new SelectList(Model.Tari, "Value", "Text"),
-                "Selectați țara", new { @class = "form-control" })
-                <br />
-
-                <button class="btn btn-success custom-button" type="submit">Adaugă hotelul</button>
-
-            </form>
-        </div>
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="alert alert-info">
+        @ViewBag.Message
     </div>
-</div>
+}
+<h1> Cauta</h1>
+<form method="GET">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Select check-in date" id="checkinDate" name="checkinDate" value="@ViewBag.CheckinDate">
+        <input type="text" class="form-control" placeholder="Select check-out date" id="checkoutDate"name="checkoutDate" value="@ViewBag.CheckoutDate">
+        <select class="form-select" aria-label="Select country" name="country">
+            <option value="">Selecteaza tara</option>
+            @foreach (var country in ViewBag.Countries)
+            {
+                    <option value="@country.Nume">@country.Nume</option>
+            }
+        </select>
+        <input type="number" class="form-control" placeholder="Numar de persoane" name="numPersons" value="@ViewBag.NumPersons">
+        <button class="btn btn-outline-success" type="submit">Cauta</button>
+    </div>
+    @foreach (var item in ViewBag.FilterOptions)
+    {
+        <div>
+            <input type="checkbox" name="selectedFilters" value="@item" @(ViewBag.SelectedFilters.Contains(item) ? "checked" : "")>
+            <label>@item</label>
+        </div>
+    }
+</form>
+
+
+
+
+
+<section id="pinBoot">
+    @foreach (MDS.Models.Hotel hotel in ViewBag.Hoteluri)
+    {
+        <div class="article-container">
+            <article class="white-panel">
+                <h3 class="card-title text-success py-3 px-3 rounded-2">@hotel.Nume</h3>
+                <div><i class="bi bi-globe"></i> @hotel.Tara.Nume</div>
+                <div><i class="bi bi-geo-alt-fill"></i> @hotel.Locatie</div>
+                @for (var i = 1; i <= int.Parse(@Html.Raw(hotel.Rating).ToString()); i++)
+                {
+                    <span class="starGlow"></span>
+                }
+                @for (var i = (int.Parse(@Html.Raw(hotel.Rating).ToString()) + 1); i <= 5; i++)
+                {
+                    <span class="starFade"></span>
+                }
+
+                <h4>Available Rooms:</h4>
+                @if (ViewBag.CamereHoteluri != null && ViewBag.CamereHoteluri.ContainsKey(hotel))
+                {
+                    var availableRooms = ViewBag.CamereHoteluri[hotel];
+                    if (availableRooms.Count > 0)
+                    {
+                        foreach (MDS.Models.Camera camera in availableRooms)
+                        {
+                            <div>
+                                <div>Capacitate camera: @camera.Capacitate</div>
+                                <div>Pret Total: @(ViewBag.Nrzile * camera.PretNoapte)</div>
+                                <div>Descriere: @camera.Descriere</div>
+                                <button class="book-button" onclick="location.href='/Rezervari/New/@camera.Id'">Rezerva</button>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div>Nu sunt camere disponibile cu cerințele date</div>
+                    }
+                }
+                else
+                {
+                    <div>Nu sunt camere disponibile cu cerințele date</div>
+                }
+            </article>
+        </div>
+    }
+</section>
+
+
+
+<script>
+    $(function() {
+        // Initialize the datepickers
+        $('#checkinDate, #checkoutDate').datepicker({
+            dateFormat: 'yyyy-mm-dd',
+            minDate: 0 // Set the minimum date to today
+        });
+    });
+</script>
+

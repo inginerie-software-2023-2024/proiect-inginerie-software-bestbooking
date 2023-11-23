@@ -72,9 +72,9 @@ namespace MDS.Controllers
         }
 
         public IActionResult RezervarileMele()
-        {
+        {   
             var rezervari = db.ListaRezervari.OrderByDescending(a => a.CheckIn).ThenByDescending(a => a.CheckOut)
-                                          .Include("User").Where(a => a.UserId == _userManager.GetUserId(User));
+                                          .Include("User").Where(a =>a.UserId== _userManager.GetUserId(User));
             var userName = _userManager.GetUserName(User);
             var user = db.Users.FirstOrDefault(u => u.UserName == userName);
             ViewBag.UserName = user.UserName;
@@ -136,7 +136,7 @@ namespace MDS.Controllers
         public ActionResult New(Rezervare rez)
         {
             var sanitizer = new HtmlSanitizer();
-
+          
             rez.UserId = _userManager.GetUserId(User);
 
             var camera = db.ListaCamere.Include("Hotel")
@@ -174,9 +174,7 @@ namespace MDS.Controllers
 
                 TimeSpan zile = rez.CheckOut - rez.CheckIn;
                 int nrzile = (int)zile.TotalDays;
-                if (nrzile == 0)
-                    nrzile = 1;
-                rez.Suma = nrzile * camera.PretNoapte;
+                rez.Suma = (nrzile+1) * camera.PretNoapte;
 
                 db.ListaRezervari.Add(rez);
                 db.SaveChanges();
@@ -244,6 +242,17 @@ namespace MDS.Controllers
                 reservationToEdit.CheckOut = rez.CheckOut;
                 reservationToEdit.ListaClienti = rez.ListaClienti;
 
+                var camera = db.ListaCamere.Include("Hotel")
+                .Include("ListaRezervari")
+                .Include("ListaRezervari.User")
+                .Where(art => art.Id == reservationToEdit.CameraId)
+                .First();
+
+                TimeSpan zile = reservationToEdit.CheckOut - reservationToEdit.CheckIn;
+                int nrzile = (int)zile.TotalDays;
+                
+                reservationToEdit.Suma = (nrzile+1) * camera.PretNoapte;
+
                 // Se salveaza modificarile in baza de date
                 db.SaveChanges();
 
@@ -286,7 +295,7 @@ namespace MDS.Controllers
             ViewBag.UserCurent = _userManager.GetUserId(User);
         }
 
-
+    
 
 
     }

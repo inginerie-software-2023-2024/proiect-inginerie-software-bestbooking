@@ -9,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.ComponentModel.Design;
+using System.Diagnostics.Metrics;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace MDS.Controllers
 {
@@ -119,9 +122,6 @@ namespace MDS.Controllers
                                          .Where(art => art.Id == rev.HotelId)
                                          .First();
 
-                //return Redirect("/Articles/Show/" + comm.ArticleId);
-
-                // Adaugam bookmark-urile utilizatorului pentru dropdown
                 ViewBag.UserCollections = db.ListaTari
                                           .Where(b => b.UserId == _userManager.GetUserId(User))
                                           .ToList();
@@ -153,7 +153,7 @@ namespace MDS.Controllers
             db.SaveChanges();
 
 
-            TempData["message"] = "Hotelul a fost adaugat";
+            TempData["message"] = "Hotelul a fost adăugat";
             return RedirectToAction("Show", "Hoteluri", new { id = bm.Id });
 
         }
@@ -173,7 +173,7 @@ namespace MDS.Controllers
             }
             else
             {
-                TempData["message"] = "Nu puteti edita acest hotel";
+                TempData["message"] = "Nu puteți edita acest hotel";
                 //return RedirectToAction("Index");
                 return View(hotel);
             }
@@ -208,7 +208,7 @@ namespace MDS.Controllers
                 }
                 else
                 {
-                    TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unui hotel care nu va apartine";
+                    TempData["message"] = "Nu aveți dreptul să faceți modificări asupra unui hotel care nu vă aparține";
                     return RedirectToAction("Index", "Tari");
 
                 }
@@ -236,12 +236,12 @@ namespace MDS.Controllers
                 // Delete the hotel record
                 db.ListaHoteluri.Remove(hotel);
                 db.SaveChanges();
-                TempData["message"] = "Hotelul a fost sters";
+                TempData["message"] = "Hotelul a fost șters";
                 return RedirectToAction("Index", "Hoteluri");
             }
             else
             {
-                TempData["message"] = "Nu puteti sterge acest hotel";
+                TempData["message"] = "Nu puteți șterge acest hotel";
                 return RedirectToAction("Index", "Hoteluri");
             }
         }
@@ -282,11 +282,14 @@ namespace MDS.Controllers
             List<string> filterOptions = new List<string>
     {
         "AC",
-        "Mic Dejun",
-        "Cina",
+        "Duș",
         "Balcon",
-        "Cada",
-        "Room Service"
+        "Room Service",
+        "Vedere panoramică",
+        "TV",
+        "Cină",
+        "Prânz",
+        "Mic Dejun",
     };
 
             ViewBag.FilterOptions = filterOptions;
@@ -299,6 +302,7 @@ namespace MDS.Controllers
             var tari = db.ListaTari.ToList();
             ViewBag.Countries = tari;
             //ViewBag.Hoteluri = hoteluri;
+            var hotelurile = db.ListaHoteluri.Include(h => h.ListaCamere).ToList();
 
 
             var hotelsWithAvailableRooms = new List<Hotel>();
@@ -339,7 +343,8 @@ namespace MDS.Controllers
                         if (selectedFilters != null && selectedFilters.Any())
                         {
                             availableRooms = availableRooms.Where(room =>
-                                selectedFilters.All(filter => room.Descriere.Contains(filter))).ToList();
+                            selectedFilters.All(filter =>
+                            Regex.IsMatch(room.Descriere, $@"\b{Regex.Escape(filter)}\b"))).ToList();
                         }
 
                         if (availableRooms.Count > 0)
@@ -355,14 +360,24 @@ namespace MDS.Controllers
 
                 else
                 {
-                    TempData["message"] = "Toate campurile sunt obligatorii";
-                    ViewBag.Message = TempData["message"].ToString();
+
+                    TempData["Message"] = "Toate câmpurile sunt obligatorii";
+                    ViewBag.Message = TempData["Message"].ToString();
                     //return RedirectToAction("CautareHoteluri");
+                    
+
+
+
+                    ViewBag.CamereHoteluri = hoteluri.ToDictionary(hotel => hotel, hotel => hotel.ListaCamere.ToList());
 
 
                 }
+                
 
             }
+
+
+       
 
 
             ViewBag.CheckinDate = DateTime.Now.ToString("yyyy-MM-dd");

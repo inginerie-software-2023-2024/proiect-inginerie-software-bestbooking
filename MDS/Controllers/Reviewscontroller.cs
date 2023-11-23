@@ -73,7 +73,7 @@ namespace MDS.Controllers
         {
             Review rev = db.ListaReviews.Include("Hotel")
                                         .Where(art => art.Id == id)
-                                        .First();
+                                        .First(); 
 
             if (rev.UserId == _userManager.GetUserId(User) || User.IsInRole("Admin"))
             {
@@ -93,7 +93,7 @@ namespace MDS.Controllers
         {
             var sanitizer = new HtmlSanitizer();
             Review rev = db.ListaReviews.Include("Hotel")
-                                          .Where(art => art.Id == id)
+                                          .Where(art=>art.Id==id)
                                           .First();
             try
             {
@@ -110,7 +110,7 @@ namespace MDS.Controllers
                 else
                 {
                     TempData["message"] = "Nu aveți dreptul să faceți modificări";
-                    return RedirectToAction("Show", "Hoteluri", new { id = rev.Hotel.Id });
+                    return RedirectToAction("Show","Hoteluri", new {id = rev.Hotel.Id} );
                 }
             }
             catch (Exception e)

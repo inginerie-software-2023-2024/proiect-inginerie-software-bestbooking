@@ -93,7 +93,7 @@ namespace MDS.Controllers
         {
             var sanitizer = new HtmlSanitizer();
             Review rev = db.ListaReviews.Include("Hotel")
-                                          .Where(art => art.Id==id)
+                                          .Where(art => art.Id == id)
                                           .First();
             try
             {

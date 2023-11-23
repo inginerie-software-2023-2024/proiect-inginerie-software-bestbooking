@@ -90,7 +90,7 @@ namespace MDS.Controllers
                 db.ListaCamere.Add(cm);
                 db.SaveChanges();
                 TempData["message"] = "Camera a fost adăugată";
-                return Redirect("/Hoteluri/Show/"+cm.Hotel.Id);
+                return Redirect("/Hoteluri/Show/" + cm.Hotel.Id);
             }
 
             catch (Exception)
@@ -135,7 +135,7 @@ namespace MDS.Controllers
 
                 cam.Nume = requestCamera.Nume;
                 cam.PretNoapte = requestCamera.PretNoapte;
-                cam.Capacitate= requestCamera.Capacitate;
+                cam.Capacitate = requestCamera.Capacitate;
                 cam.Descriere = requestCamera.Descriere;
                 db.SaveChanges();
                 TempData["message"] = "Camera a fost modificată";

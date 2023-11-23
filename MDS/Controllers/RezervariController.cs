@@ -131,6 +131,11 @@ namespace MDS.Controllers
             return View(rez);
         }
 
+
+
+
+
+
         [HttpPost]
         [Authorize(Roles = "User")]
         public ActionResult New(Rezervare rez)
@@ -220,7 +225,7 @@ namespace MDS.Controllers
 
             if (rezervare.UserId != _userManager.GetUserId(User) && !User.IsInRole("Admin"))
             {
-                TempData["message"] = "Nu aveți dreptul să faceți modificări asupra unei rezervări care nu vă aparține";
+                TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unei rezervari care nu va apartine";
                 return RedirectToAction("Index");
             }
 
@@ -248,13 +253,13 @@ namespace MDS.Controllers
                 db.SaveChanges();
 
                 // Se afiseaza un mesaj de confirmare si se redirectioneaza catre pagina principala
-                TempData["message"] = "Rezervarea a fost modificată cu succes";
+                TempData["message"] = "Rezervarea a fost modificata cu succes";
                 return RedirectToAction("Index");
             }
             else
             {
                 // Daca utilizatorul nu are dreptul sa modifice rezervarea, se redirectioneaza catre pagina principala cu un mesaj de eroare
-                TempData["message"] = "Nu aveți dreptul să faceți modificări asupra unei rezervări care nu vă aparține";
+                TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unei rezervari care nu va apartine";
                 return RedirectToAction("Index");
             }
         }
@@ -266,7 +271,7 @@ namespace MDS.Controllers
         {
             Rezervare rez = db.ListaRezervari.Find(id);
             db.ListaRezervari.Remove(rez);
-            TempData["message"] = "Rezervarea a fost ștearsă";
+            TempData["message"] = "Rezervarea a fost stearsa";
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -13,7 +13,7 @@ Group 342
 
 [Trello Link](https://trello.com/invite/mdsbestbooking/ATTI433e5f54374e851e879a648323e985b6BA271634)
 
-[Demo Link](https://youtu.be/TXNqJDGsOgc)
+[Demo Link]
 
 [Diagram Link](https://drive.google.com/file/d/18PXyDElgSDRy9ncKxb538-3kkto0WEC3/view?usp=sharing)
 

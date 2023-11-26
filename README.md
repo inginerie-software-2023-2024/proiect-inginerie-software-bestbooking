@@ -19,6 +19,8 @@ Group 342
 
 [Diagram UML Link](https://drive.google.com/file/d/18PXyDElgSDRy9ncKxb538-3kkto0WEC3/view?usp=sharing)
 
+[Activity Map](https://lucid.app/lucidspark/22f1f6e8-bd7c-44a7-b874-853064e3a1c8/edit?invitationId=inv_2659ac12-0d26-4252-8bbc-a9f0c9408594&page=0_0#)
+
 ### MUST: User login with different roles :heavy_check_mark:
 #### Acceptance Criteria:
 1. **Login Standard:**

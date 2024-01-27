@@ -144,10 +144,24 @@ namespace MDS.Controllers
                 // Setează Disponibila la true
                 reservationToDelete.Anulata = 1;
 
-                // Salvează modificările în baza de date
-                db.SaveChanges();
+                // Round the number sumDecimal / 10
+                decimal rotunjire = Math.Round((decimal)reservationToDelete.Suma / 10);
 
-                TempData["message"] = "Rezervarea a fost anulată cu succes.";
+                // Subtract the rounded value from sumDecimal
+
+                if ((decimal)reservationToDelete.Suma - rotunjire > 0)
+                {
+                    reservationToDelete.Suma = (float)((decimal)reservationToDelete.Suma - rotunjire);
+
+                    // Salvează modificările în baza de date
+                    db.SaveChanges();
+
+                    TempData["message"] = $"Rezervarea a fost anulată cu succes la prețul de {rotunjire} $";
+                }
+                else
+                {
+                    TempData["message"] = "Nu s-a putut anula rezervarea din cauza prețului prea mic.";
+                }
             }
             else
             {
@@ -166,6 +180,7 @@ namespace MDS.Controllers
             var reservationsToDisplay = db.ListaRezervari
                 .Where(r => r.Anulata == 1)
                 .ToList();
+
 
             // Update ViewBag cu lista de rezervări anulate de afișat
             ViewBag.CanceledReservations = reservationsToDisplay;

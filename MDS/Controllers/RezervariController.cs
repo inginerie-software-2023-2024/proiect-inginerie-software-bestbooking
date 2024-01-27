@@ -120,7 +120,7 @@ namespace MDS.Controllers
             if (totalItems == 0)
             {
                 TempData["message"] = "Nu s-a găsit nicio rezervare";
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Tari");
             }
             else
             {

@@ -57,7 +57,7 @@
 <h2 class="text-center mb-4 custom-header">Toate Rezervările</h2>
 @if (ViewBag.Message != null)
 {
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <div class="alert alert-dismissible custom-text fade show" role="alert">
         <strong>@ViewBag.Message</strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
@@ -73,12 +73,14 @@
                     <h5 class="card-title custom-header">@Html.Raw(reservation.ListaClienti)</h5>
                     <p class="card-text custom-text"><strong>Check-in:</strong> @Html.Raw(reservation.CheckIn)</p>
                     <p class="card-text custom-text"><strong>Check-out:</strong> @Html.Raw(reservation.CheckOut)</p>
+                    <p class="card-text custom-text"><strong>Suma:</strong> @Html.Raw(reservation.Suma) $</p>
                     <p class="card-text custom-text"><strong>Client Id:</strong> @Html.Raw(reservation.UserId)</p>
                     <p class="card-text custom-text"><strong>User Name:</strong>  @ViewBag.UserName</p>
                 </div>
                 <div class="card-footer text-center">
                     <a href="/Rezervari/Show/@reservation.Id" class="btn custom-button">Detalii</a>
-                    <a href="/Rezervari/PreiaRezervarea/@reservation.Id" class="btn btn-success">Preia rezervarea</a>
+                    &nbsp;
+                    <a href="/Rezervari/PreiaRezervarea/@reservation.Id" class="btn custom-button">Preia rezervarea</a>
                 </div>
             </div>
         </article>

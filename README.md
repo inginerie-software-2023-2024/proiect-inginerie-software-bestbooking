@@ -16,6 +16,12 @@ From: **Group 342**
 
 [Diagram UML](https://drive.google.com/file/d/18PXyDElgSDRy9ncKxb538-3kkto0WEC3/view?usp=sharing)
 
+[User Interview](https://unibucro0-my.sharepoint.com/personal/adela-gabriela_danescu_s_unibuc_ro/_layouts/15/stream.aspx?id=%2Fpersonal%2Fadela%2Dgabriela%5Fdanescu%5Fs%5Funibuc%5Fro%2FDocuments%2FRecordings%2FCall%20with%20Laura%20Ana%20Maria%20Basnaru%2D20240128%5F222917%2DMeeting%20Recording%2Emp4&ga=1&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview)
+
+[Planning Meeting](https://drive.google.com/file/d/1lu-v9burYmhtu_Fwdzt6wu3OHVylujyt/view?usp=sharing)
+
+[Sprint reports and reviews](https://docs.google.com/document/d/1Hfk6YoYyrojMJsy4BZZiFVsdXFabEpIcPVZbYs74BVw/edit?usp=sharing)
+
 # Product Vision:
 
 Our project aims to revolutionize the travel booking experience by introducing a dynamic application focused on simplifying the process and providing the best prices for users. 
@@ -75,7 +81,7 @@ In summary, our project envisions a transformative travel application that addre
 ## (Current Backlog)
 
 ## History of Previous Reservations (4p):
-# Acceptance Criteria:
+### Acceptance Criteria:
 Display of Reservation List:
 The page should display a comprehensive list of all previous reservations for the user and future reservations.
 Each reservation entry should include details such as the hotel name, reservation period, and reservation details.
@@ -83,7 +89,7 @@ The page displaying previous reservations should be easily accessible from the u
 Users should be able to navigate to each reservation's detailed information with a single click from the list.
 
 ## Transfer of Reservations (10p):
-# Acceptance Criteria:
+### Acceptance Criteria:
 
 The user relinquishing a reservation should have an option to create a transfer offer.
 Once he cancels a reservations, it will no longer be seen in my reservations list.
@@ -91,7 +97,7 @@ The user should have a separate page in which he can see offers from others cust
 He can choose to take that reservation and will have to pay with 10% less than the original price.
 
 ## Priority Placement (6p):
-# Acceptance Criteria:
+### Acceptance Criteria:
 
 There will be a separate page where user can see what canceled resrvation they can transfer to themselves.
 The button to this page shoould be in the first menu.

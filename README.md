@@ -74,17 +74,27 @@ In summary, our project envisions a transformative travel application that addre
 
 ## (Current Backlog)
 
-### History of Previous Reservations: SHOULD (4p)
+## History of Previous Reservations (4p):
+# Acceptance Criteria:
+Display of Reservation List:
+The page should display a comprehensive list of all previous reservations for the user and future reservations.
+Each reservation entry should include details such as the hotel name, reservation period, and reservation details.
+The page displaying previous reservations should be easily accessible from the user's account dashboard or a dedicated reservations section.
+Users should be able to navigate to each reservation's detailed information with a single click from the list.
 
-   As a user, I want to access a page displaying a list of all my previous reservations so that the list includes relevant details such as hotel, period, and status.
+## Transfer of Reservations (10p):
+# Acceptance Criteria:
 
-### Transfer of Reservations from One User to Another: SHOULD (10p)
+The user relinquishing a reservation should have an option to create a transfer offer.
+Once he cancels a reservations, it will no longer be seen in my reservations list.
+The user should have a separate page in which he can see offers from others customers.
+He can choose to take that reservation and will have to pay with 10% less than the original price.
 
-   **Offer Creation:**
-   As a user who gives up a reservation, I want to create an offer for transferring a reservation so that the offer includes details like hotel, period, and reason for transfer.
+## Priority Placement (6p):
+# Acceptance Criteria:
 
-   **Priority Placement:**
-   As a user who makes a reservation, I want the offers to appear prominently on recommendation and search result pages so that, in case they match selected fields, they are easily noticeable.
+There will be a separate page where user can see what canceled resrvation they can transfer to themselves.
+The button to this page shoould be in the first menu.
 
 ##### ~ 15/29p
 

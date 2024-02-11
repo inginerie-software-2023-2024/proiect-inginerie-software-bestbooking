@@ -2,8 +2,6 @@
     var reservation = ViewBag.Reservation as MDS.Models.Rezervare;
     var camera = ViewBag.Camera as MDS.Models.Camera;
     }
-
-
 <head>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -11,11 +9,9 @@
             font-family: 'Lobster', cursive;
             color: #ff6600;
         }
-
         .custom-text {
             font-family: 'Lobster', cursive;
         }
-
         .custom-button {
             font-family: 'Lobster', cursive;
             background-color: #3399ff;
@@ -24,13 +20,11 @@
             padding: 5px 10px;
             font-size: 16px;
         }
-
             .custom-button:hover {
                 background-color: #1a8cff;
                 color: #000000;
                 border-color: #1a8cff;
             }
-
         .custom-textbox {
             font-family: 'Lobster', cursive;
             background-color: #cce6ff;
@@ -38,23 +32,18 @@
             padding: 8px;
             font-size: 14px;
         }
-
             .custom-textbox::placeholder {
                 color: #1a8cff;
             }
-
         .btn-primary {
             background-color: #007bff;
         }
-
         .card-footer {
             display: flex;
             justify-content: center;
         }
-
     </style>
 </head>
-
     <div class="card">
         <h3 class="custom-header text-center">Detalii Rezervare</h3>
         <br />
@@ -118,13 +107,16 @@
                     <div>
                         <a class="btn custom-button" href="/Rezervari/Edit/@reservation.Id"><i class="bi bi-pencil-square"></i>Editează</a>
                     </div>
-                    <div>
-                        <form method="post" action="/Rezervari/Delete/@reservation.Id">
-                            <button class="btn custom-button" type="submit"><i class="bi bi-trash"></i>Șterge</button>
-                        </form>
-                    </div>
+
                 </div>
             }
+            @if (ViewBag.EsteAdmin)
+            {<div>
+            <form method="post" action="/Rezervari/Delete/@reservation.Id">
+                <button class="btn custom-button" type="submit"><i class="bi bi-trash"></i>Șterge</button>
+            </form>
+            </div>
+            }
+
         </div>
     </div>
-

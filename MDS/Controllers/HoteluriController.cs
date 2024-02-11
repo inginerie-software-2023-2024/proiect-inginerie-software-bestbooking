@@ -12,21 +12,15 @@ using System.ComponentModel.Design;
 using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text.RegularExpressions;
-
 namespace MDS.Controllers
 {
-
     [Authorize]
     public class HoteluriController : Controller
     {
         private Dictionary<Hotel, List<Camera>> availableRoomsByHotel;
-
         private readonly ApplicationDbContext db;
-
         private readonly UserManager<ApplicationUser> _userManager;
-
         private readonly RoleManager<IdentityRole> _roleManager;
-
         public HoteluriController(
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
@@ -34,24 +28,17 @@ namespace MDS.Controllers
             )
         {
             db = context;
-
             _userManager = userManager;
-
             _roleManager = roleManager;
         }
-
-
         [Authorize(Roles = "User,Agent,Admin")]
-
         public ActionResult Index()
         {
             if (TempData.ContainsKey("message"))
             {
                 ViewBag.message = TempData["message"].ToString();
             }
-
             Hotel hotel = new Hotel();
-
             hotel.Tari = GetAllTari();
             var hoteluri = from hot in db.ListaHoteluri
                            orderby hot.Rating
@@ -59,12 +46,9 @@ namespace MDS.Controllers
             ViewBag.Hoteluri = hoteluri;
             return View(hotel);
         }
-
-
         [Authorize(Roles = "User,Agent,Admin")]
         public IActionResult Show(int id)
         {
-
             Hotel hotel = db.ListaHoteluri.Include("Tara")
                                            .Include("ListaCamere")
                                            .Include("ListaCamere.User")
@@ -72,9 +56,7 @@ namespace MDS.Controllers
                                            .Include("ListaReviews.User")
                                             .Where(art => art.Id == id)
                                             .First();
-
             var ratings = db.ListaReviews.Where(art => art.HotelId == id).ToList();
-
             if (ratings.Count() > 0)
             {
                 var ratingSum = ratings.Sum(d => d.Rating.Value);
@@ -82,7 +64,6 @@ namespace MDS.Controllers
                 var ratingCount = ratings.Count();
                 ViewBag.RatingCount = ratingCount;
                 hotel.Rating = ratingSum / ratingCount;
-
                 ViewBag.RatingAvg = ratingSum / ratingCount;
             }
             else
@@ -96,23 +77,33 @@ namespace MDS.Controllers
 
             SetAccessRights();
 
+            string currentUserId = _userManager.GetUserId(User); // Assuming you have a method like this
+
+            // Check if the current user has reservations for this hotel with a checkout date earlier than today
+            bool userHasReservations = db.ListaRezervari.Any(r => r.UserId == currentUserId
+                                                    && db.ListaCamere.Any(c => c.HotelId == id && c.Id == r.CameraId)
+                                                    && r.CheckOut < DateTime.Today);
+
+            // Store the result in ViewBag
+            ViewBag.UserHasReservations = userHasReservations;
+
             return View(hotel);
+
+
+
+
         }
         [HttpPost]
         [Authorize(Roles = "User,Agent,Admin")]
         public IActionResult Show([FromForm] Review rev)
         {
-
             rev.UserId = _userManager.GetUserId(User);
-
-
             if (ModelState.IsValid)
             {
                 db.ListaReviews.Add(rev);
                 db.SaveChanges();
                 return Redirect("/Hoteluri/Show/" + rev.HotelId);
             }
-
             else
             {
                 Hotel h = db.ListaHoteluri.Include("Tara")
@@ -121,27 +112,21 @@ namespace MDS.Controllers
                                          .Include("ListaReviews.User")
                                          .Where(art => art.Id == rev.HotelId)
                                          .First();
-
                 ViewBag.UserCollections = db.ListaTari
                                           .Where(b => b.UserId == _userManager.GetUserId(User))
                                           .ToList();
-
                 SetAccessRights();
-
                 return View(h);
             }
         }
-
         [Authorize(Roles = "Agent,Admin")]
         public IActionResult New()
         {
             Hotel hotel = new Hotel();
             hotel.Rating = 0;
             hotel.Tari = GetAllTari();
-
             return View(hotel);
         }
-
         [HttpPost]
         [Authorize(Roles = "Agent,Admin")]
         public ActionResult New(Hotel bm)
@@ -151,14 +136,9 @@ namespace MDS.Controllers
             bm.UserId = _userManager.GetUserId(User);
             db.ListaHoteluri.Add(bm);
             db.SaveChanges();
-
-
             TempData["message"] = "Hotelul a fost adăugat";
             return RedirectToAction("Show", "Hoteluri", new { id = bm.Id });
-
         }
-
-
         [Authorize(Roles = "Agent,Admin")]
         public ActionResult Edit(int id)
         {
@@ -166,7 +146,6 @@ namespace MDS.Controllers
                                              .Where(art => art.Id == id)
                                              .First();
             hotel.Tari = GetAllTari();
-
             if (hotel.UserId == _userManager.GetUserId(User) || User.IsInRole("Admin"))
             {
                 return View(hotel);
@@ -183,34 +162,24 @@ namespace MDS.Controllers
         public IActionResult Edit(int id, Hotel requestArticle)
         {
             var sanitizer = new HtmlSanitizer();
-
             Hotel h = db.ListaHoteluri.Find(id);
-
-
             try
             {
                 if (h.UserId == _userManager.GetUserId(User) || User.IsInRole("Admin"))
                 {
                     h.Nume = requestArticle.Nume;
                     h.Locatie = requestArticle.Locatie;
-
                     requestArticle.Facilitati = sanitizer.Sanitize(requestArticle.Facilitati);
-
                     h.Facilitati = requestArticle.Facilitati;
-
-
                     h.TaraId = requestArticle.TaraId;
-
                     db.SaveChanges();
                     TempData["message"] = "Hotelul a fost modificat";
                     return RedirectToAction("Show", "Hoteluri", new { id = id });
-
                 }
                 else
                 {
                     TempData["message"] = "Nu aveți dreptul să faceți modificări asupra unui hotel care nu vă aparține";
                     return RedirectToAction("Index", "Tari");
-
                 }
             }
             catch (Exception e)
@@ -218,7 +187,6 @@ namespace MDS.Controllers
                 return View(requestArticle);
             }
         }
-
         [HttpPost]
         [Authorize(Roles = "Agent,Admin")]
         public ActionResult Delete(int id)
@@ -226,7 +194,6 @@ namespace MDS.Controllers
             Hotel hotel = db.ListaHoteluri.Include("Tara")
                                              .Where(art => art.Id == id)
                                              .First();
-
             if (hotel.UserId == _userManager.GetUserId(User) || User.IsInRole("Admin"))
             {
                 var c = db.ListaCamere.Where(c => c.Hotel == hotel).FirstOrDefault();
@@ -245,15 +212,12 @@ namespace MDS.Controllers
                 return RedirectToAction("Index", "Hoteluri");
             }
         }
-
         [NonAction]
         public IEnumerable<SelectListItem> GetAllTari()
         {
             var selectList = new List<SelectListItem>();
-
             var tari = from tara in db.ListaTari
                        select tara;
-
             foreach (var tara in tari)
             {
                 selectList.Add(new SelectListItem
@@ -262,20 +226,15 @@ namespace MDS.Controllers
                     Text = tara.Nume.ToString()
                 });
             }
-
-
             return selectList;
         }
-
         private void SetAccessRights()
         {
             ViewBag.AfisareButoane = false;
-
             ViewBag.EsteAdmin = User.IsInRole("Admin");
             ViewBag.EsteAgent = User.IsInRole("Agent");
             ViewBag.UserCurent = _userManager.GetUserId(User);
         }
-
         public IActionResult CautareHoteluri(List<string> selectedFilters)
         {
             ViewBag.Message = null;
@@ -291,10 +250,8 @@ namespace MDS.Controllers
         "Prânz",
         "Mic Dejun",
     };
-
             ViewBag.FilterOptions = filterOptions;
             ViewBag.SelectedFilters = selectedFilters;
-
             //ViewBag.Hoteluri = null;
             var hoteluri = from hot in db.ListaHoteluri
                            orderby hot.Rating
@@ -303,32 +260,24 @@ namespace MDS.Controllers
             ViewBag.Countries = tari;
             //ViewBag.Hoteluri = hoteluri;
             var hotelurile = db.ListaHoteluri.Include(h => h.ListaCamere).ToList();
-
-
             var hotelsWithAvailableRooms = new List<Hotel>();
             if (Convert.ToString(HttpContext.Request.Query["checkinDate"]) != null && Convert.ToString(HttpContext.Request.Query["checkoutDate"]) != null)
             {
                 if (HttpContext.Request.Query["checkinDate"] != "" && HttpContext.Request.Query["checkoutDate"] != "" && HttpContext.Request.Query["numPersons"] != "" && HttpContext.Request.Query["country"] != "")
                 {
-
                     DateTime checkinDate = DateTime.Parse(HttpContext.Request.Query["checkinDate"]);
                     DateTime checkoutDate = DateTime.Parse(HttpContext.Request.Query["checkoutDate"]);
-
-
                     TimeSpan zile = checkoutDate - checkinDate;
                     int nrzile = (int)zile.TotalDays;
                     if (nrzile == 0)
                         nrzile = 1;
                     ViewBag.Nrzile = nrzile;
-
                     ViewBag.In = checkinDate;
                     ViewBag.Out = checkoutDate;
                     int numPersons = int.Parse(HttpContext.Request.Query["numPersons"]);
                     string country = HttpContext.Request.Query["country"];
-
                     var hotels = db.ListaHoteluri.Include(h => h.ListaCamere).Where(h => h.Tara.Nume == country).ToList();
                     availableRoomsByHotel = new Dictionary<Hotel, List<Camera>>();
-
                     foreach (var hotel in hotels)
                     {
                         var availableRooms = hotel.ListaCamere
@@ -339,59 +288,38 @@ namespace MDS.Controllers
                          reservation.CheckIn <= checkinDate &&
                         reservation.CheckOut >= checkoutDate
                     )).ToList();
-
                         if (selectedFilters != null && selectedFilters.Any())
                         {
                             availableRooms = availableRooms.Where(room =>
                             selectedFilters.All(filter =>
                             Regex.IsMatch(room.Descriere, $@"\b{Regex.Escape(filter)}\b"))).ToList();
                         }
-
                         if (availableRooms.Count > 0)
                         {
                             hotelsWithAvailableRooms.Add(hotel);
                         }
                         availableRoomsByHotel.Add(hotel, availableRooms);
                     }
-
                     ViewBag.CamereHoteluri = availableRoomsByHotel;
-
                 }
-
                 else
                 {
-
                     TempData["Message"] = "Toate câmpurile sunt obligatorii";
                     ViewBag.Message = TempData["Message"].ToString();
                     //return RedirectToAction("CautareHoteluri");
                     
-
-
-
                     ViewBag.CamereHoteluri = hoteluri.ToDictionary(hotel => hotel, hotel => hotel.ListaCamere.ToList());
-
-
                 }
                 
-
             }
-
-
        
-
-
             ViewBag.CheckinDate = DateTime.Now.ToString("yyyy-MM-dd");
             ViewBag.CheckoutDate = DateTime.Now.ToString("yyyy-MM-dd");
             ;
             ViewBag.NumPersons = "";
             ViewBag.Hoteluri = hotelsWithAvailableRooms;
-
             return View();
         }
-
-
-
-
         private List<string> GetDesiredItemsOptions()
         {
             // Retrieve options from a data source or hard-code them
@@ -400,10 +328,7 @@ namespace MDS.Controllers
                 "Room Service",
                 "AC"
             };
-
             return options;
         }
-
-
     }
 }

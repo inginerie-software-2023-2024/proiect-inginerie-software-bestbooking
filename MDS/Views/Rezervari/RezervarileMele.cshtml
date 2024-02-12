@@ -1,8 +1,6 @@
 ﻿@{
     ViewBag.Title = "RezervarileMele";
 }
-
-
 <head>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -10,11 +8,9 @@
             font-family: 'Lobster', cursive;
             color: #ff6600;
         }
-
         .custom-text {
             font-family: 'Lobster', cursive;
         }
-
         .custom-button {
             font-family: 'Lobster', cursive;
             background-color: #3399ff;
@@ -23,13 +19,11 @@
             padding: 5px 10px;
             font-size: 16px;
         }
-
             .custom-button:hover {
                 background-color: #1a8cff;
                 color: #000000;
                 border-color: #1a8cff;
             }
-
         .custom-textbox {
             font-family: 'Lobster', cursive;
             background-color: #cce6ff;
@@ -37,23 +31,18 @@
             padding: 8px;
             font-size: 14px;
         }
-
             .custom-textbox::placeholder {
                 color: #1a8cff;
             }
-
         .btn-primary {
             background-color: #007bff;
         }
-
         .card-footer {
             display: flex;
             justify-content: center;
         }
-
     </style>
 </head>
-
 <h2 class="text-center mb-4 custom-header">Toate Rezervările</h2>
 @if (ViewBag.Message != null)
 {
@@ -62,9 +51,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
-
 <h3 class="text-center mb-4 custom-header">Rezervări viitoare</h3>
-
 <section id="reservations" class="row row-cols-1 row-cols-md-2 g-4">
     @foreach (var reservation in ViewBag.FutureReservations)
     {
@@ -78,8 +65,6 @@
                     <p class="card-text custom-text"><strong>Client Id:</strong> @Html.Raw(reservation.UserId)</p>
                     <p class="card-text custom-text"><strong>User Name:</strong>  @ViewBag.UserName</p>
                     
-
-
                 </div>
                 <div class="card-footer text-center">
                     <a href="/Rezervari/Show/@reservation.Id" class="btn custom-button">Detalii</a>
@@ -90,12 +75,8 @@
         </article>
     }
 </section>
-
 <br/>
-
 <h3 class="text-center mb-4 custom-header">Rezervări trecute</h3>
-
-
 <section id="reservations" class="row row-cols-1 row-cols-md-2 g-4">
     @foreach (var reservation in ViewBag.PastReservations)
     {
@@ -108,19 +89,16 @@
                     <p class="card-text custom-text"><strong>Suma:</strong> @Html.Raw(reservation.Suma) $</p>
                     <p class="card-text custom-text"><strong>Client Id:</strong> @Html.Raw(reservation.UserId)</p>
                     <p class="card-text custom-text"><strong>User Name:</strong>  @ViewBag.UserName</p>
-
-
                 </div>
                 <div class="card-footer text-center">
                     <a href="/Rezervari/Show/@reservation.Id" class="btn custom-button">Detalii</a>
+                    <a href="/Hoteluri/Index" class="btn btn-warning">Spune-ne parerea ta!</a>
+
                 </div>
             </div>
         </article>
     }
 </section>
-
-
-
 <div class="mt-4 d-flex justify-content-center">
     <nav aria-label="Page navigation">
         <ul class="pagination">
@@ -153,15 +131,12 @@
         </ul>
     </nav>
 </div>
-
 <style>
     /* Add custom styles here */
-
     /* Set background color for the details button */
     .btn-primary {
         background-color: #007bff;
     }
-
     /* Center the card footer */
     .card-footer {
         display: flex;

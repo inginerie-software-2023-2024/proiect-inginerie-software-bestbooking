@@ -1,5 +1,4 @@
 ﻿@model MDS.Models.Hotel
-
 <head>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -7,12 +6,10 @@
             font-family: 'Lobster', cursive;
             color: #ff6600;
         }
-
         .custom-text {
             font-family: 'Lobster', cursive;
             color: #004d99;
         }
-
         .custom-button {
             font-family: 'Lobster', cursive;
             background-color: #3399ff;
@@ -21,13 +18,11 @@
             padding: 5px 10px;
             font-size: 16px;
         }
-
             .custom-button:hover {
                 background-color: #1a8cff;
                 color: #000000;
                 border-color: #1a8cff;
             }
-
         .custom-textbox {
             font-family: 'Lobster', cursive;
             background-color: #cce6ff;
@@ -37,45 +32,36 @@
             color: #1a8cff;
             width: 200px !important;
         }
-
         .article-container {
             display: inline-block; 
             margin-right: 10px;
             margin-bottom: 10px;
         }
-
             .custom-textbox::placeholder {
                 color: #1a8cff;
             }
-
         .container{
             display: flex;
             justify-content: center;
         }
-
         .custom-flex-container {
             display: flex;
             flex-wrap: wrap;
         }
-
         .custom-flex-item {
             display: flex;
             align-items: center;
             margin-right: 55px;
             margin-left: 55px;
         }
-
     </style>
 </head>
-
-
 @if (!string.IsNullOrEmpty(ViewBag.Message))
 {
     <div class="alert alert-info custom-text">
         @ViewBag.Message
     </div>
 }
-
 <h2 class="text-center mt-5 custom-header"> Caută hotelul perfect pentru tine!</h2>
 <br />
 <form method="GET">
@@ -90,7 +76,18 @@
             }
         </select>
         <input type="number" class="form-control custom-textbox" placeholder="Număr de persoane" name="numPersons" value="@ViewBag.NumPersons">
-        
+        <input type="number" class="form-control custom-textbox" placeholder="Preț minim" name="minPrice" value="@ViewBag.MinPrice">
+        <input type="number" class="form-control custom-textbox" placeholder="Preț maxim" name="maxPrice" value="@ViewBag.MaxPrice">
+        <select class="form-select custom-textbox" aria-label="Sortare camera" name="sortOrder">
+            <option value="" class="custom-textbox">Sortează după:</option>
+            <option value="priceAsc" class="custom-textbox">Preț crescător</option>
+            <option value="priceDesc" class="custom-textbox">Preț descrescător</option>
+        </select>
+        <select class="form-select custom-textbox" aria-label="Sortare hoteluri" name="sortOrderHotels">
+            <option value="asc" class="custom-textbox">Evaluare crescătoare</option>
+            <option value="desc" class="custom-textbox">Evaluare descrescătoare</option>
+        </select>
+
     </div>
     <br />
     <label class="custom-header">Facilități dorite:</label>
@@ -106,14 +103,10 @@
         }
     </div>
     <br />
-
     <div class="container">
         <button class="btn custom-button" type="submit">Caută</button>
     </div>
-
 </form>
-
-
 <section id="pinBoot">
     @foreach (var hotel in ViewBag.Hoteluri)
     {
@@ -153,19 +146,13 @@
                         <div>Nu există camere disponibile pentru acest hotel</div>
                     }
                 }
-
             </div>
         </article>
     }
 </section>
-
-
-
-
 <footer>
     <!-- Footer content -->
 </footer>
-
 <script>
     $(function () {
         // Initialize the datepickers
@@ -175,5 +162,3 @@
         });
     });
 </script>
-
-

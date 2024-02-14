@@ -8,7 +8,7 @@ From: **Group 342**
 
 [SMART NFS](https://docs.google.com/document/d/1xByb49eBQnMBz94uNoANoEqbmg6mDLFe02F-84nxcWI/edit)
 
-[User Personas](https://docs.google.com/document/d/1BpeaZb_QCSZPDt4h1vrn6ZAyx8Gbgn7XpYFCS03gpNY/edit)
+[User Personas](https://docs.google.com/document/d/1BpeaZb_QCSZPDt4h1vrn6ZAyx8Gbgn7XpYFCS03gpNY/edit?usp=sharing)
 
 [Activity Map](https://lucid.app/lucidspark/22f1f6e8-bd7c-44a7-b874-853064e3a1c8/edit?invitationId=inv_2659ac12-0d26-4252-8bbc-a9f0c9408594&page=0_0#)
 
@@ -21,6 +21,8 @@ From: **Group 342**
 [Planning Meeting](https://drive.google.com/file/d/1lu-v9burYmhtu_Fwdzt6wu3OHVylujyt/view?usp=sharing)
 
 [Sprint reports and reviews](https://docs.google.com/document/d/1Hfk6YoYyrojMJsy4BZZiFVsdXFabEpIcPVZbYs74BVw/edit?usp=sharing)
+
+[Final sprint Report](https://docs.google.com/document/d/1lbGRCjJxu7_MuQyKIxSCtMsTtO7RSOSbfyVC0VdsVbk/edit?usp=sharing)
 
 # Product Vision:
 

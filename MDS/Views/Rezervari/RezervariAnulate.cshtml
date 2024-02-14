@@ -63,19 +63,29 @@
     </div>
 }
 
-
+@{
+    var counter = 0;
+}
 <section id="reservations" class="row row-cols-1 row-cols-md-2 g-4">
     @foreach (var reservation in ViewBag.CanceledReservations)
     {
+        var camera = ViewBag.Camere[counter];
+        counter++;
         <article class="col">
             <div class="card h-100">
                 <div class="card-body">
                     <h5 class="card-title custom-header">@Html.Raw(reservation.ListaClienti)</h5>
+                    @if (ViewBag.IsAdmin)
+                    {
+                        <p class="card-text custom-text"><strong>Id-ul acestuia:</strong> @Html.Raw(reservation.UserId)</p>
+                    }
                     <p class="card-text custom-text"><strong>Check-in:</strong> @Html.Raw(reservation.CheckIn)</p>
                     <p class="card-text custom-text"><strong>Check-out:</strong> @Html.Raw(reservation.CheckOut)</p>
                     <p class="card-text custom-text"><strong>Suma:</strong> @Html.Raw(reservation.Suma) $</p>
-                    <p class="card-text custom-text"><strong>Client Id:</strong> @Html.Raw(reservation.UserId)</p>
-                    <p class="card-text custom-text"><strong>User Name:</strong>  @ViewBag.UserName</p>
+
+                    <p class="card-text custom-text"><strong>Numele hotelului:</strong> @Html.Raw(camera.Hotel.Nume)</p>
+                    <p class="card-text custom-text"><strong>Camera:</strong> @Html.Raw(camera.Nume)</p>
+                    <p class="card-text custom-text"><strong>Descrierea acesteia:</strong> @Html.Raw(camera.Descriere)</p>
                 </div>
                 <div class="card-footer text-center">
                     <a href="/Rezervari/Show/@reservation.Id" class="btn custom-button">Detalii</a>

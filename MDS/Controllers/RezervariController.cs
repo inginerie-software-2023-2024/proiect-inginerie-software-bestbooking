@@ -92,6 +92,38 @@ namespace MDS.Controllers
             ViewBag.lastPage = Math.Ceiling((float)totalItems / (float)_perPage);
             ViewBag.PastReservations = paginatedPastReservations;
             ViewBag.FutureReservations = futureReservations;
+            ViewBag.IsAdmin = User.IsInRole("Admin");
+
+            List<Camera> pastCamere = new List<Camera>();
+            foreach (var rezervare in paginatedPastReservations)
+            {
+                Camera camera = db.ListaCamere.Include("Hotel")
+                                    .Include("ListaRezervari")
+                                    .Include("ListaRezervari.User")
+                                    .Where(art => art.Id == rezervare.CameraId)
+                                    .First();
+                if (camera != null)
+                {
+                    pastCamere.Add(camera);
+                }
+            }
+            ViewBag.PastCamere = pastCamere;
+
+            List<Camera> futureCamere = new List<Camera>();
+            foreach (var rezervare in futureReservations)
+            {
+                Camera camera = db.ListaCamere.Include("Hotel")
+                                    .Include("ListaRezervari")
+                                    .Include("ListaRezervari.User")
+                                    .Where(art => art.Id == rezervare.CameraId)
+                                    .First();
+                if (camera != null)
+                {
+                    futureCamere.Add(camera);
+                }
+            }
+            ViewBag.FutureCamere = futureCamere;
+
             if (totalItems == 0)
             {
                 TempData["message"] = "Nu s-a găsit nicio rezervare";
@@ -141,6 +173,23 @@ namespace MDS.Controllers
                 .ToList();
             // Update ViewBag cu lista de rezervări anulate de afișat
             ViewBag.CanceledReservations = reservationsToDisplay;
+            ViewBag.IsAdmin = User.IsInRole("Admin");
+
+            List<Camera> camere = new List<Camera>();
+            foreach (var rezervare in reservationsToDisplay)
+            {
+                Camera camera = db.ListaCamere.Include("Hotel")
+                                    .Include("ListaRezervari")
+                                    .Include("ListaRezervari.User")
+                                    .Where(art => art.Id == rezervare.CameraId)
+                                    .First();
+                if (camera != null)
+                {
+                    camere.Add(camera);
+                }
+            }
+            ViewBag.Camere = camere;
+
             // Redirect to the original page or wherever you want to go after processing canceled reservations.
             return View();
         }

@@ -23,6 +23,7 @@ From: **Group 342**
 [Sprint reports and reviews](https://docs.google.com/document/d/1Hfk6YoYyrojMJsy4BZZiFVsdXFabEpIcPVZbYs74BVw/edit?usp=sharing)
 
 [Final sprint Report](https://docs.google.com/document/d/1lbGRCjJxu7_MuQyKIxSCtMsTtO7RSOSbfyVC0VdsVbk/edit?usp=sharing)
+[Arhitecture Report](https://docs.google.com/document/d/1ImljVKXRCpTnBLK5hT6ADTON4jYtSUqk/edit?usp=sharing&ouid=111688225130206381124&rtpof=true&sd=true)
 
 # Product Vision:
 

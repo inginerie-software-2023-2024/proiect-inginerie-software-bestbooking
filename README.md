@@ -24,7 +24,7 @@ From: **Group 342**
 
 [Final sprint Report](https://docs.google.com/document/d/1lbGRCjJxu7_MuQyKIxSCtMsTtO7RSOSbfyVC0VdsVbk/edit?usp=sharing)
 
-[Arhitecture Report](https://docs.google.com/document/d/1ImljVKXRCpTnBLK5hT6ADTON4jYtSUqk/edit?usp=sharing&ouid=111688225130206381124&rtpof=true&sd=true)
+[Arhitecture Report](https://docs.google.com/document/d/1CFB0Cc5pilUjbIcLHHxyE5d9ymb_ulU3/edit?usp=sharing&ouid=111688225130206381124&rtpof=true&sd=true)
 
 # Product Vision:
 

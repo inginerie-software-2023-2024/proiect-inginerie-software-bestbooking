@@ -1,5 +1,7 @@
 ﻿using AngleSharp.Dom;
 using Ganss.Xss;
+using MailKit.Net.Smtp;
+using MailKit.Security;
 using MDS.Data;
 using MDS.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -8,6 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using MimeKit;
+
 namespace MDS.Controllers
 {
     [Authorize]
@@ -17,12 +21,11 @@ namespace MDS.Controllers
         private readonly ApplicationDbContext db;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly EmailService _emailService;
+
         public RezervariController(
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
-            RoleManager<IdentityRole> roleManager,
-                    EmailService emailService
+            RoleManager<IdentityRole> roleManager
             )
         {
             db = context;
@@ -273,7 +276,7 @@ namespace MDS.Controllers
                 string userEmail = "user@example.com"; // Obține adresa de e-mail a utilizatorului de la utilizatorul autentificat sau din altă sursă
                 string subject = "Detalii despre rezervare";
 
-                _emailService.SendReservationDetailsAsync(userEmail, subject, rez);
+                SendReservationDetailsAsync(userEmail, subject, rez);
 
                 return RedirectToAction("Show", "Camere", new { id = rez.CameraId });
             }
@@ -372,6 +375,33 @@ namespace MDS.Controllers
             }
             ViewBag.EsteAdmin = User.IsInRole("Admin");
             ViewBag.UserCurent = _userManager.GetUserId(User);
+        }
+
+        private async Task SendReservationDetailsAsync(string userEmail, string subject, Rezervare rez)
+        {
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Your Name", "jarret.doyle@ethereal.email"));
+            message.To.Add(new MailboxAddress("", userEmail)); // Adresa de e-mail a utilizatorului
+            message.Subject = subject;
+
+            message.Body = new TextPart("plain")
+            {
+                Text =
+                       $"Lista de clienți: {rez.ListaClienti}\n" +
+                       $"Suma totală: {rez.Suma}\n" +
+                       $"Check-in: {rez.CheckIn}\n" +
+                       $"Check-out: {rez.CheckOut}\n" +
+                       $"ID cameră: {rez.CameraId}\n"
+            };
+        
+
+            using (var client = new SmtpClient())
+            {
+                await client.ConnectAsync("smtp.ethereal.email", 587, SecureSocketOptions.StartTls); // Adresa SMTP și portul
+                await client.AuthenticateAsync("jarret.doyle@ethereal.email", "Uw8rtWpRSVghemBzY6"); // Autentificare SMTP
+                await client.SendAsync(message);
+                await client.DisconnectAsync(true);
+            }
         }
     }
 }

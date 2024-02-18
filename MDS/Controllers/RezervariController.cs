@@ -17,10 +17,12 @@ namespace MDS.Controllers
         private readonly ApplicationDbContext db;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly EmailService _emailService;
         public RezervariController(
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
-            RoleManager<IdentityRole> roleManager
+            RoleManager<IdentityRole> roleManager,
+                    EmailService emailService
             )
         {
             db = context;
@@ -268,6 +270,11 @@ namespace MDS.Controllers
                 db.ListaRezervari.Add(rez);
                 db.SaveChanges();
                 TempData["message"] = "Rezervare facuta cu succes!";
+                string userEmail = "user@example.com"; // Obține adresa de e-mail a utilizatorului de la utilizatorul autentificat sau din altă sursă
+                string subject = "Detalii despre rezervare";
+
+                _emailService.SendReservationDetailsAsync(userEmail, subject, rez);
+
                 return RedirectToAction("Show", "Camere", new { id = rez.CameraId });
             }
             else
